@@ -2,7 +2,136 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!doctype html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Monster — energetické nápoje</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1>Monster — energetické nápoje</h1>
+            <p class="tagline">Stručný přehled příchutí, složení a tipy pro užívání.</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="intro">
+            <h2>O produktech</h2>
+            <p>Monster je známý energetický nápoj dostupný v mnoha příchutích a formátech. Níže najdete populární příchutě, základní informace o složení a doporučení pro užívání.</p>
+        </section>
+
+        <section class="flavors">
+            <h2>Příchutě (ukázka)</h2>
+
+            <div class="grid">
+
+                <article class="card">
+                    <img src="obr/white.webp" alt="Bílá plechovka Monster Ultra White" />
+                    <h3>Ultra White</h3>
+                    <p>Osvěžující příchuť s typickým kofeinovým kopem. Jedna z nejoblíbenějších.</p>
+                </article>
+
+                <article class="card">
+                    <img src="obr/klasik.jpg" alt="Klasická zelená plechovka Monster" />
+                    <h3>Klasik</h3>
+                    <p>Originální a nejrozšířenější varianta. Tradiční Monster chuť.</p>
+                </article>
+
+                <article class="card">
+                    <img src="obr/mango.avif" alt="Barevná plechovka Monster Mango Loco" />
+                    <h3>Mango Loco</h3>
+                    <p>Intenzivní mangová příchuť pro milovníky sladkých tropických chutí.</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="nutrition">
+            <h2>Složení a výživové informace (orientačně)</h2>
+            <ul>
+                <li>Kofein: 80–160 mg na plechovku (dle varianty)</li>
+                <li>Cukr: některé varianty obsahují cukr, jiné jsou bez cukru</li>
+                <li>Další látky: taurin, vitamíny skupiny B, aroma</li>
+            </ul>
+
+            <p class="warning">
+                <strong>Upozornění:</strong>
+                Nepřekračujte doporučený denní příjem kofeinu. Energetické nápoje nejsou vhodné pro děti, těhotné a kojící ženy nebo osoby citlivé na kofein.
+            </p>
+        </section>
+
+        <div class="center">
+            <a href="kontakt.html" class="btn-primary">Kontaktujte nás</a>
+        </div>
+        <div class="center">
+            <a href="omne.html" class="btn-primary">O mně</a>
+        </div>
+
+    </main>
+
+    <h4>VÝŽIVOVÁ TABULKA</h4>
+    <table>
+        <tr>
+            <th>Nutrient</th>
+            <th>Na 100ml</th>
+            <th>Na 250ml</th>
+            <th>Na 500ml</th>
+        </tr>
+        <tr>
+            <td>Energetická hodnota</td>
+            <td>45 kcal</td>
+            <td>112,5 kcal</td>
+            <td>225 kcal</td>
+        </tr>
+        <tr>
+            <td>Protein</td>
+            <td>0 g</td>
+            <td>0 g</td>
+            <td>0 g</td>
+        </tr>
+        <tr>
+            <td>Sacharidy</td>
+            <td>11 g</td>
+            <td>27,5 g</td>
+            <td>55 g</td>
+        </tr>
+        <tr>
+            <td>Cukr</td>
+            <td>10 g</td>
+            <td>25 g</td>
+            <td>50 g</td>
+        </tr>
+        <tr>
+            <td>Tuky</td>
+            <td>0 g</td>
+            <td>0 g</td>
+            <td>0 g</td>
+        </tr>
+        <tr>
+            <td>Nasycené tuky</td>
+            <td>0 g</td>
+            <td>0 g</td>
+            <td>0 g</td>
+        </tr>
+        <tr>
+            <td>Kofein</td>
+            <td>32 mg</td>
+            <td>80 mg</td>
+            <td>160 mg</td>
+        </tr>
+    </table>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Informativní stránka — nepředstavuje lékařskou radu.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

@@ -10,6 +10,15 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
+        public IActionResult omne()
+        {
+            return View();
+        }
+
+        public IActionResult kontakt()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
