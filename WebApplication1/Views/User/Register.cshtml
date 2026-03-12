@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["titulek"] = "Registrace";
+}
+
+@if (ViewData["chyba"] is string chyba && !string.IsNullOrWhiteSpace(chyba))
+{
+    <p class="chyba">@ViewData["chyba"]</p>
+}
+
+<form action="/User/Register" method="post">
+    <input type="text" name="username" placeholder="Uživatelské jméno..." />
+    <br />
+    <input type="password" name="password" placeholder="Heslo..." />
+    <br />
+    <input type="password" name="passwordCheck" placeholder="Heslo pro kontrolu..." />
+    <br />
+    <input type="submit" value="Registrovat" />
+</form>
