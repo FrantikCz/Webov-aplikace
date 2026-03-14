@@ -10,12 +10,12 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
-        public IActionResult omne()
+        public IActionResult Omne()
         {
             return View();
         }
 
-        public IActionResult kontakt()
+        public IActionResult Kontakt()
         {
             return View();
         }

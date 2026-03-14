@@ -1,14 +1,14 @@
-﻿    using Microsoft.EntityFrameworkCore;
-    using _06_AspNetCore.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApplication1.Models;
 
-    namespace _06_AspNetCore.Data
+namespace WebApplication1.Data
+{
+    public class AppDbContext : DbContext
     {
-        public class AppDbContext : DbContext
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-            {
-            }
-
-            public DbSet<User> Users { get; set; }
         }
+
+        public DbSet<User> Users { get; set; }
     }
+}

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using _06_AspNetCore.Data;
-using _06_AspNetCore.Models;
+using WebApplication1.Data;
+using WebApplication1.Models;
 
-namespace _06_AspNetCore.Controllers
+namespace WebApplication1.Controllers
 {
     public class UserController : Controller
     {
