@@ -1,54 +1,89 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data;
 using WebApplication1.Models;
+using System.Security.Cryptography;
+using System.Text;
+using System.Linq; // added
 
-namespace WebApplication1.Controllers
+public class UserController : Controller
 {
-    public class UserController : Controller
+    private readonly AppDbContext _context;
+
+    public UserController(AppDbContext context)
     {
-        private readonly AppDbContext _dbContext;
+        _context = context;
+    }
 
-        public UserController(AppDbContext dbContext)
+    // HASH
+    private string HashPassword(string password)
+    {
+        using (SHA256 sha = SHA256.Create())
         {
-            _dbContext = dbContext;
+            var bytes = Encoding.UTF8.GetBytes(password);
+            var hash = sha.ComputeHash(bytes);
+            return Convert.ToBase64String(hash);
+        }
+    }
+
+    // REGISTER
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Register(string username, string password)
+    {
+        var user = new User
+        {
+            Username = username,
+            PasswordHash = HashPassword(password)
+        };
+
+        _context.Users.Add(user);
+        _context.SaveChanges();
+
+        return RedirectToAction("Login");
+    }
+
+    // LOGIN
+    public IActionResult Login()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Login(string username, string password)
+    {
+        var hash = HashPassword(password);
+
+        // use LINQ instead of FromSqlRaw
+        var user = _context.Users
+            .FirstOrDefault(u => u.Username == username && u.PasswordHash == hash);
+
+        if (user != null)
+        {
+            HttpContext.Session.SetString("User", user.Username);
+            return RedirectToAction("Profile");
         }
 
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
+        ViewBag.Error = "Špatné údaje";
+        return View();
+    }
 
-        [HttpPost]
-        public IActionResult Register(string username, string password, string passwordCheck)
-        {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-            {
-                ViewData["chyba"] = "Jméno i heslo musí být zadáno.";
-
-                return View();
-            }
-            else if (string.IsNullOrEmpty(passwordCheck) || passwordCheck != password)
-            {
-                ViewData["chyba"] = "Heslo a heslo pro kontrolu se musí rovnat.";
-
-                return View();
-            }
-
-            _dbContext.Users.Add(new User() { Name = username, Password = password });
-            _dbContext.SaveChanges();
-
+    // PROFILE (jen přihlášený)
+    public IActionResult Profile()
+    {
+        if (HttpContext.Session.GetString("User") == null)
             return RedirectToAction("Login");
-        }
 
-        public IActionResult Login()
-        {
-            return View();
-        }
+        return View();
+    }
 
-        public IActionResult Profile()
-        {
-            return View();
-        }
+    // LOGOUT
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Login");
     }
 }

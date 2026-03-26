@@ -2,10 +2,12 @@
     ViewData["titulek"] = "Přihlášení";
 }
 
-<form>
-    <input type="text" name="username" placeholder="Uživatelské jméno..." />
-    <br />
-    <input type="password" name="password" placeholder="Heslo..." />
-    <br />
-    <input type="submit" value="Přihlásit" />
+<h2>Přihlášení</h2>
+
+<form method="post">
+    <input name="username" placeholder="Uživatelské jméno" />
+    <input name="password" type="password" placeholder="Heslo" />
+    <button type="submit">Přihlásit</button>
 </form>
+
+<p style="color:red;">@ViewBag.Error</p>

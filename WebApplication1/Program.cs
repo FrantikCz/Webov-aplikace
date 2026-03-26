@@ -1,12 +1,13 @@
-using WebApplication1.Data;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
-
 builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseSqlite("Data Source=users.db"));
+    options.UseSqlite("Data Source=users.db"));
+
+builder.Services.AddSession();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -19,6 +20,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseSession();
 app.UseAuthorization();
 app.MapStaticAssets();
 
@@ -26,6 +28,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();
