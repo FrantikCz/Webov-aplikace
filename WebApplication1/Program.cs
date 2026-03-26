@@ -4,7 +4,7 @@ using WebApplication1.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=users.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
@@ -30,3 +30,6 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.Run();
+
+
+
