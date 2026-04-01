@@ -3,87 +3,114 @@ using WebApplication1.Data;
 using WebApplication1.Models;
 using System.Security.Cryptography;
 using System.Text;
-using System.Linq; // added
+using System.Linq;
 
-public class UserController : Controller
+namespace WebApplication1.Controllers
 {
-    private readonly AppDbContext _context;
-
-    public UserController(AppDbContext context)
+    public class UserController : Controller
     {
-        _context = context;
-    }
+        private readonly AppDbContext _context;
 
-    // HASH
-    private string HashPassword(string password)
-    {
-        using (SHA256 sha = SHA256.Create())
+        public UserController(AppDbContext context)
         {
-            var bytes = Encoding.UTF8.GetBytes(password);
-            var hash = sha.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
-        }
-    }
-
-    // REGISTER
-    public IActionResult Register()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult Register(string username, string password)
-    {
-        var user = new User
-        {
-            Username = username,
-            PasswordHash = HashPassword(password)
-        };
-
-        _context.Users.Add(user);
-        _context.SaveChanges();
-
-        return RedirectToAction("Login");
-    }
-
-    // LOGIN
-    public IActionResult Login()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult Login(string username, string password)
-    {
-        var hash = HashPassword(password);
-
-        // use LINQ instead of FromSqlRaw
-        var user = _context.Users
-            .FirstOrDefault(u => u.Username == username && u.PasswordHash == hash);
-
-        if (user != null)
-        {
-            HttpContext.Session.SetString("User", user.Username);
-            return RedirectToAction("Profile");
+            _context = context;
         }
 
-        ViewBag.Error = "Špatné údaje";
-        return View();
-    }
+        // HASH
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha = SHA256.Create())
+            {
+                var bytes = Encoding.UTF8.GetBytes(password);
+                var hash = sha.ComputeHash(bytes);
+                return Convert.ToBase64String(hash);
+            }
+        }
 
-    // PROFILE (jen přihlášený)
-    public IActionResult Profile()
-    {
-        if (HttpContext.Session.GetString("User") == null)
+        // REGISTER
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(string username, string password)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                ViewBag.Error = "Uživatelské jméno a heslo jsou povinné";
+                return View();
+            }
+
+            if (password.Length < 6)
+            {
+                ViewBag.Error = "Heslo musí mít alespoň 6 znaků";
+                return View();
+            }
+
+            // Zkontroluj, zda uživatel již existuje
+            if (_context.Users.Any(u => u.Username == username))
+            {
+                ViewBag.Error = "Uživatel s tímto jménem již existuje";
+                return View();
+            }
+
+            var user = new User
+            {
+                Username = username,
+                PasswordHash = HashPassword(password)
+            };
+
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
             return RedirectToAction("Login");
+        }
 
-        return View();
-    }
+        // LOGIN
+        public IActionResult Login()
+        {
+            return View();
+        }
 
-    // LOGOUT
-    public IActionResult Logout()
-    {
-        HttpContext.Session.Clear();
-        return RedirectToAction("Login");
+        [HttpPost]
+        public IActionResult Login(string username, string password)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                ViewBag.Error = "Uživatelské jméno a heslo jsou povinné";
+                return View();
+            }
+
+            var hash = HashPassword(password);
+
+            var user = _context.Users
+                .FirstOrDefault(u => u.Username == username && u.PasswordHash == hash);
+
+            if (user != null)
+            {
+                HttpContext.Session.SetString("User", user.Username);
+                return RedirectToAction("Profile");
+            }
+
+            ViewBag.Error = "Špatné údaje";
+            return View();
+        }
+
+        // PROFILE (jen přihlášený)
+        public IActionResult Profile()
+        {
+            if (HttpContext.Session.GetString("User") == null)
+                return RedirectToAction("Login");
+
+            return View();
+        }
+
+        // LOGOUT
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
     }
 }
