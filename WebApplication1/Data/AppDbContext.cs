@@ -11,5 +11,6 @@ namespace WebApplication1.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Note> Notes { get; set; }
     }
 }

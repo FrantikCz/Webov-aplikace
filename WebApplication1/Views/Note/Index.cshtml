@@ -1,0 +1,69 @@
+@model List<WebApplication1.Models.Note>
+
+@{
+    ViewData["Title"] = "Moje poznámky";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-10">
+            <h1>Moje poznámky</h1>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("Create", "Note")" class="btn btn-success">+ Nová poznámka</a>
+        </div>
+    </div>
+
+    <hr />
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-info">
+            Zatím nemáte žádné poznámky. <a href="@Url.Action("Create", "Note")">Vytvořte si první!</a>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var note in Model)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@note.Title</h5>
+                            <p class="card-text">@Html.Raw(note.Content.Replace("\n", "<br />").Substring(0, Math.Min(150, note.Content.Length)))</p>
+                            @if (note.Content.Length > 150)
+                            {
+                                <p class="text-muted">...</p>
+                            }
+                            <small class="text-muted">
+                                Vytvořeno: @note.CreatedAt.ToString("dd.MM.yyyy HH:mm")
+                                @if (note.UpdatedAt != null)
+                                {
+                                    <br />
+                                    <text>Upraveno: @note.UpdatedAt.Value.ToString("dd.MM.yyyy HH:mm")</text>
+                                }
+                            </small>
+                        </div>
+                        <div class="card-footer">
+                            <a href="@Url.Action("Edit", "Note", new { id = note.Id })" class="btn btn-sm btn-primary">Upravit</a>
+                            <a href="@Url.Action("Delete", "Note", new { id = note.Id })" class="btn btn-sm btn-danger" onclick="return confirm('Opravdu chcete smazat tuto poznámku?')">Smazat</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+</style>

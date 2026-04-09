@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "Nová poznámka";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>Nová poznámka</h1>
+            <hr />
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
+
+            <form method="post" action="@Url.Action("Create", "Note")">
+                <div class="form-group mb-3">
+                    <label for="title" class="form-label">Nadpis *</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Zadejte nadpis poznámky" required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="content" class="form-label">Obsah *</label>
+                    <textarea class="form-control" id="content" name="content" rows="10" placeholder="Zadejte obsah poznámky" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Uložit poznámku</button>
+                    <a href="@Url.Action("Index", "Note")" class="btn btn-secondary">Zrušit</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
