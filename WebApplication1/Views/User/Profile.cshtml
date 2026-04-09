@@ -1,11 +1,10 @@
 ﻿@{
-    ViewData["titulek"] = "Profil";
+    ViewData["Title"] = "Profil";
 }
 
-<p>Jste přihlášeni jako <b></b></p>
-
-<h1>Profil</h1>
-
-<p>Vítej @Context.Session.GetString("User")</p>
-
-<a href="/User/Logout">Odhlásit se</a>
+<div class="mt-5">
+    <h1>Profil</h1>
+    <p>Vítej <strong>@Context.Session.GetString("User")</strong></p>
+    <p>Jste přihlášeni jako: <strong>@Context.Session.GetString("User")</strong></p>
+    <a class="btn btn-danger mt-3" asp-controller="User" asp-action="Logout">Odhlásit se</a>
+</div>

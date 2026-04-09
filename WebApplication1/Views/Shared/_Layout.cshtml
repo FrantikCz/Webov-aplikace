@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+@using Microsoft.AspNetCore.Http
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,30 +22,40 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Index">Domů</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="omne">O mně</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Kontakt">Kontakt</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="kontakt">Kontakt</a>
-                        </li>
+                            @if (Context.Session.GetString("User") == null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="User" asp-action="Register">Registrace</a>
+                                </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="User" asp-action="Register">Registrace</a>
-                        </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="User" asp-action="Login">Login</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="User" asp-action="Profile">
+                                        Profil (@Context.Session.GetString("User"))
+                                    </a>
+                                </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="User" asp-action="Login">Login</a>
-                        </li>
-
-
-
-                    </ul>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="User" asp-action="Logout">
+                                        Odhlásit se
+                                    </a>
+                                </li>
+                            }
+                        </ul>
                 </div>
             </div>
         </nav>

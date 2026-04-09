@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(string username, string password)
+        public IActionResult Register(string username, string password, string passwordCheck)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
@@ -45,6 +45,12 @@ namespace WebApplication1.Controllers
             if (password.Length < 6)
             {
                 ViewBag.Error = "Heslo musí mít alespoň 6 znaků";
+                return View();
+            }
+
+            if (password != passwordCheck)
+            {
+                ViewBag.Error = "Hesla se neshodují";
                 return View();
             }
 

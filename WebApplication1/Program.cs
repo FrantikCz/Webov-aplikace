@@ -27,7 +27,6 @@ using (var scope = app.Services.CreateScope())
 
 app.UseStaticFiles();
 app.UseRouting();
-
 app.UseSession();
 
 app.MapControllerRoute(

@@ -1,13 +1,25 @@
 ﻿@{
-    ViewData["titulek"] = "Přihlášení";
+    ViewData["Title"] = "Přihlášení";
 }
 
-<h2>Přihlášení</h2>
-
-<form method="post">
-    <input name="username" placeholder="Uživatelské jméno" />
-    <input name="password" type="password" placeholder="Heslo" />
-    <button type="submit">Přihlásit</button>
-</form>
-
-<p style="color:red;">@ViewBag.Error</p>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <h2>Přihlášení</h2>
+        <form method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">Uživatelské jméno</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Zadejte vaše uživatelské jméno" required />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Heslo</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Zadejte vaše heslo" required />
+            </div>
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
+            <button type="submit" class="btn btn-primary">Přihlásit</button>
+        </form>
+        <p class="mt-3">Nemáte účet? <a asp-controller="User" asp-action="Register">Zaregistrujte se zde</a></p>
+    </div>
+</div>
